@@ -43,6 +43,8 @@ const options = {
     swaggerUi.setup(specs)
   );
 
+app.use(cors({origin: 'http://localhost:3001'}));
+
 app.use(express.json(),require("./routes/recipe"));
 app.use(express.json(),require("./routes/ingredient"))
 
