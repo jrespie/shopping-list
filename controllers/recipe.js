@@ -54,10 +54,10 @@ exports.getAllRecipes = (req, res, next) => {
    }
 
    exports.updateRecipe = (req, res, next) => {
-    if (!req.body.name||!req.body.description) return next(new AppError("Name or description field (or both) are required", 400));
+    if (!req.body.name&&!req.body.description) return next(new AppError("Name or description field (or both) are required", 400));
     const values = [req.body.name, req.body.description, req.params.id];
     conn.query(
-      "UPDATE recipe SET name = ?, description=? WHERE id = ?",
+      prepareUpdateQuery(req.body.name,req.body.description,req.params.id),
       values,
       function(err,data,fields) {
         if(err) return next(new AppError(err,500));
@@ -72,6 +72,18 @@ exports.getAllRecipes = (req, res, next) => {
       }
     )
    }
+
+  prepareUpdateQuery = (name,description,id) => {
+    var query = "UPDATE recipe SET ";
+    if(name)
+      query+="name = '"+name+"'";
+    if(name&&description)
+      query+=", ";
+    if(description)
+      query+="description = '"+description+"'";
+    query+=" WHERE id = '"+id+"'";
+    return query;
+  }
 
    exports.deleteRecipe = (req, res, next) => {
     const values = [req.params.id];
