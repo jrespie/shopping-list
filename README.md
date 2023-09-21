@@ -8,3 +8,4 @@ Install MySQL and import `schema.sql` to create the database
 
 # Run
 `npm start` to run the server on port 3000
+
