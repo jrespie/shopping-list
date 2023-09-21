@@ -5,3 +5,6 @@ The data is hosted in a MySQL database on port 3307.
 
 ## Installation
 Install MySQL and import `schema.sql` to create the database
+
+# Run
+`npm start` to run the server on port 3000
