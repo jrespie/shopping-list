@@ -27,3 +27,16 @@ exports.getAllIngredients = (req, res, next) => {
       }
     );
    };
+
+   exports.getIngredient = (req, res, next) => {
+    const values = [req.params.id];
+    conn.query(
+      "SELECT * FROM ingredient WHERE id = ?",
+      [values],
+      function (err, data, fields) {
+        if (err) return next(new AppError(err, 500));
+        if (data?.length <1) return next(new AppError("Record not found",404));
+        res.status(200).json(data[0]);
+      }
+    );
+   }
