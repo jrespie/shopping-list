@@ -20,11 +20,13 @@ exports.getAllIngredients = (req, res, next) => {
       [values],
       function (err, data, fields) {
         if (err) return next(new AppError(err, 500));
-        res.status(201).json({
-          status: "success",
-          message: "ingredient created!",
-          data: data[0],
-        });
+        conn.query(`SELECT * FROM ingredient WHERE id='${uuid}'`,function(err,data,fields) {
+          res.status(201).json({
+            status: "success",
+            message: "ingredient created!",
+            data: data[0],
+          });
+        })
       }
     );
    };
