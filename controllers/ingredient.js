@@ -23,6 +23,7 @@ exports.getAllIngredients = (req, res, next) => {
         res.status(201).json({
           status: "success",
           message: "ingredient created!",
+          data: data[0],
         });
       }
     );
