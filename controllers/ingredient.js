@@ -1,5 +1,6 @@
 const AppError = require("../utils/appError");
 const conn = require("../services/db");
+const crypto = require("crypto")
 
 exports.getAllIngredients = (req, res, next) => {
     conn.query("SELECT * FROM ingredient", function (err, data, fields) {
@@ -15,8 +16,9 @@ exports.getAllIngredients = (req, res, next) => {
    exports.createIngredient = (req, res, next) => {
     if (!req.body) return next(new AppError("No form data found", 400));
     const values = [req.body.name];
+    const uuid = crypto.randomUUID();
     conn.query(
-      "INSERT INTO ingredient (name) VALUES(?)",
+      `INSERT INTO ingredient (id,name) VALUES('${uuid}',?)`,
       [values],
       function (err, data, fields) {
         if (err) return next(new AppError(err, 500));
@@ -26,7 +28,7 @@ exports.getAllIngredients = (req, res, next) => {
             message: "ingredient created!",
             data: data[0],
           });
-        })
+        });
       }
     );
    };
