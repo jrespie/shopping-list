@@ -27,7 +27,7 @@ const router = express.Router();
 router.route("/ingredient").get(ingredientControllers.getAllIngredients).post(ingredientControllers.createIngredient)
 router
  .route("/ingredient/:id")
- .get(ingredientControllers.getIngredient);
-//  .put(controllers.updateTodo)
+ .get(ingredientControllers.getIngredient)
+ .patch(ingredientControllers.updateIngredient);
 //  .delete(controllers.deleteTodo);
 module.exports = router;

@@ -45,3 +45,23 @@ exports.getAllIngredients = (req, res, next) => {
       }
     );
    }
+
+   exports.updateIngredient = (req, res, next) => {
+    if (!req.body.name) return next(new AppError("Name is required", 400));
+    const values = [req.body.name,req.params.id];
+    conn.query(
+      `UPDATE ingredient SET name = '${req.body.name}' WHERE id = '${req.params.id}'`,
+      values,
+      function(err,data,fields) {
+        if(err) return next(new AppError(err,500));
+        if(data?.affectedRows<1) return next(new AppError("Recipe not found",404))
+        conn.query(`SELECT * FROM ingredient WHERE id='${req.params.id}'`,function(err,data,fields) {
+          res.status(200).json({
+            status: "success",
+            message: "ingredient updated",
+            data: data[0],
+          })
+        })
+      }
+    )
+   }
